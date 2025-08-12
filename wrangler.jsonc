@@ -5,14 +5,15 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "tiny-worker",
-	"main": "src/index.ts",
+	"main": ".open-next/worker.js",
 	"compatibility_date": "2025-08-12",
 	"compatibility_flags": [
+		"nodejs_compat",
 		"global_fetch_strictly_public"
 	],
 	"assets": {
-		// The path to the directory containing the `index.html` file to be served at `/`
-		"directory": "./public"
+		"binding": "ASSETS",
+		"directory": ".open-next/assets"
 	},
 	"observability": {
 		"enabled": true
