@@ -3,30 +3,19 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Hello, World!</title>
+		<title>Tiny url</title>
 	</head>
 	<body>
-		<h1 id="heading"></h1>
-		<p>This page comes from a static asset stored at `public/index.html` as configured in `wrangler.jsonc`.</p>
-		<button id="button" type="button">Fetch a random UUID</button>
-		<output id="random" for="button"></output>
+		<h1 id="heading">Tiny url</h1>
+		<form action="/shorten" method="POST">
+			<label for="url">Enter URL to shorten:</label>
+			<input type="url" id="redirect" name="redirect" required />
+			<input type="hidden" name="uuid" />
+			<button type="submit">Shorten</button>
+		</form>
 		<script>
-			fetch('/message')
-				.then((resp) => resp.text())
-				.then((text) => {
-					const h1 = document.getElementById('heading');
-					h1.textContent = text;
-				});
-
-			const button = document.getElementById("button");
-			button.addEventListener("click", () => {
-				fetch('/random')
-					.then((resp) => resp.text())
-					.then((text) => {
-						const random = document.getElementById('random');
-						random.textContent = text;
-					});
-			});
+			const uuidField = document.querySelector('input[name="uuid"]');
+			uuidField.value = crypto.randomUUID();
 		</script>
 	</body>
 </html>
