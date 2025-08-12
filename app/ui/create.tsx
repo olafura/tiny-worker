@@ -2,10 +2,14 @@
 
 import Form from 'next/form';
 import { useState } from 'react';
+import { AlertCircleIcon, CheckCircle2Icon } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+
 import { handleCreate } from '@/app/actions';
-import { Label } from '@/app/components/ui/label';
-import { Input } from '@/app/components/ui/input';
-import { Button } from '@/app/components/ui/button';
 
 export default function Create() {
   let url;
@@ -27,20 +31,45 @@ export default function Create() {
     }
   }
   return (
-    <>
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Tiny url</CardTitle>
+      </CardHeader>
+
       <Form action={handleSubmit}>
-        <Label htmlFor="url" className="block text-sm/6 font-medium text-white">
-          Enter URL to shorten:
-        </Label>
-        <Input type="url" id="redirect" name="redirect" required />
-        <Button type="submit">Shorten</Button>
+        <div className="flex flex-col gap-6">
+          <CardContent>
+            <div className="grid gap-2">
+              <Label htmlFor="url" className="block text-sm/6 font-medium text-white">
+                Enter URL:
+              </Label>
+              <Input type="url" id="redirect" name="redirect" required />
+            </div>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button variant="default" type="submit">
+              Generate
+            </Button>
+          </CardFooter>
+        </div>
       </Form>
       {uuid && (
-        <div>
-          New tiny url {url && url.origin}/t/{uuid}
-        </div>
+        <Alert>
+          <CheckCircle2Icon />
+          <AlertTitle>Success! Your new tiny url</AlertTitle>
+          <AlertDescription>
+            <a href={`${url && url.origin}/t/${uuid}`} target="_blank" rel="noopener noreferrer">
+              {url && url.origin}/t/{uuid}
+            </a>
+          </AlertDescription>
+        </Alert>
       )}
-      {error && <div>Sorry but we could not create the tiny url.</div>}
-    </>
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircleIcon />
+          <AlertTitle>Sorry but we could not create the tiny url.</AlertTitle>
+        </Alert>
+      )}
+    </Card>
   );
 }
